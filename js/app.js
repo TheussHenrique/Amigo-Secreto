@@ -1,7 +1,18 @@
 let amigos = [];
-//guardar nomes
+
 function adicionar() {
     let amigo = document.getElementById('nome-amigo');
+    if(amigo.value == ''){
+        alert('Informe o nome do amigo');
+        return;
+    }
+
+    if (amigos.includes(amigo.value)) {
+        alert('Nome ja adicionado');
+        return;
+    }
+
+
     let lista = document.getElementById('lista-amigos');
 
     amigos.push(amigo.value);
@@ -14,12 +25,16 @@ function adicionar() {
 
     amigo.value = '';  
 
-    atualizarLista();
-    atualizarSorteio();
+    
 
 }
 
 function sortear() {
+    if (amigos.length < 4) {
+        alert('Adicione pelo menos 4 amigos');
+        return;
+    }
+
     embaralha(amigos);
     let sorteio = document.getElementById('lista-sorteio');
     for(let i = 0; i < amigos.length; i ++){
@@ -46,7 +61,6 @@ function embaralha(lista) {
 
         const indiceAleatorio = Math.floor(Math.random() * indice);
 
-        // atribuição via destructuring
         [lista[indice - 1], lista[indiceAleatorio]] = 
             [lista[indiceAleatorio], lista[indice - 1]];
     }
@@ -63,17 +77,15 @@ function atualizarLista() {
 
 
     for (let i = 0; i < amigos.length; i++) {
-        // Cria um elemento de parágrafo para cada amigo
+        
         let paragrafo = document.createElement('p');
         paragrafo.textContent = amigos[i];
        
-        // Adiciona um evento de clique para excluir o amigo
         paragrafo.addEventListener('click', function() {
             excluirAmigo(i);
         });
 
 
-        // Adiciona o parágrafo à lista
         lista.appendChild(paragrafo);
     }
 }
